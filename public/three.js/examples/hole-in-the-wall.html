@@ -1,0 +1,354 @@
+<!DOCTYPE html>
+<meta name="viewport" content="width=device-width, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0">
+<!-- three.js library -->
+<script src='vendor/three.js/build/three.js'></script>
+<script src="vendor/three.js/examples/js/libs/stats.min.js"></script>
+<!-- jsartookit -->
+<script src="../vendor/jsartoolkit5/build/artoolkit.min.js"></script>
+<script src="../vendor/jsartoolkit5/js/artoolkit.api.js"></script>
+<!-- include threex.artoolkit -->
+<script src="../threex-artoolkitsource.js"></script>
+<script src="../threex-artoolkitcontext.js"></script>
+<script src="../threex-artoolkitprofile.js"></script>
+<script src="../threex-armarkercontrols.js"></script>
+
+<body style='margin : 0px; overflow: hidden; font-family: Monospace;'><div style='position: absolute; top: 10px; width:100%; text-align: center;z-index:1';>
+	<a href="https://github.com/jeromeetienne/AR.js/" target="_blank">AR.js</a> 
+	- "hole in the wall" effect 
+	- <a href='#torus' onclick='location.reload()'>torus</a>,
+	<a href='#pool' onclick='location.reload()'>pool</a>
+	or <a href='#portal' onclick='location.reload()'>portal</a>
+	<br/>
+	Concept by <a href="https://twitter.com/Saqoosha" target='_blank'>@Saqoosha</a> - 
+	Code by <a href="https://twitter.com/snigelpaogat" target='_blank'>Fredrik Blomqvist</a> and 
+	<a href='https://twitter.com/jerome_etienne' target='_blank'>@jerome_etienne</a>
+</div><script>
+	//////////////////////////////////////////////////////////////////////////////////
+	//		Init
+	//////////////////////////////////////////////////////////////////////////////////
+
+	// init renderer
+	var renderer	= new THREE.WebGLRenderer({
+		antialias	: true,
+		alpha: true
+	});
+	renderer.setClearColor(new THREE.Color('lightgrey'), 0)
+	// renderer.setPixelRatio( 2 );
+	renderer.setSize( window.innerWidth, window.innerHeight );
+	renderer.domElement.style.position = 'absolute'
+	renderer.domElement.style.top = '0px'
+	renderer.domElement.style.left = '0px'
+	document.body.appendChild( renderer.domElement );
+
+	// array of functions for the rendering loop
+	var onRenderFcts= [];
+
+	// init scene and camera
+	var scene	= new THREE.Scene();
+
+	var ambient = new THREE.AmbientLight( 0x666666 );
+	scene.add( ambient );
+
+	var directionalLight = new THREE.DirectionalLight( 'white' );
+	directionalLight.intensity = 2
+	directionalLight.position.set( -1, 1, 1 ).normalize();
+	scene.add( directionalLight );
+	
+	//////////////////////////////////////////////////////////////////////////////////
+	//		Initialize a basic camera
+	//////////////////////////////////////////////////////////////////////////////////
+
+	// Create a camera
+	var camera = new THREE.Camera();
+	scene.add(camera);
+
+	////////////////////////////////////////////////////////////////////////////////
+	//          handle arToolkitSource
+	////////////////////////////////////////////////////////////////////////////////
+
+	var arToolkitSource = new THREEx.ArToolkitSource({
+		// to read from the webcam 
+		sourceType : 'webcam',
+		
+		// to read from an image
+		// sourceType : 'image',
+		// sourceUrl : '../../data/images/img.jpg',		
+
+		// to read from a video
+		// sourceType : 'video',
+		// sourceUrl : '../../data/videos/headtracking.mp4',		
+		sourceWidth: 80*4,
+		sourceHeight: 60*4,
+	})
+
+	arToolkitSource.init(function onReady(){
+		console.log('source is ready')
+		// handle resize of renderer
+		arToolkitSource.onResize(renderer.domElement)		
+	})
+	
+	// handle resize
+	window.addEventListener('resize', function(){
+		// handle arToolkitSource resize
+		arToolkitSource.onResize(renderer.domElement)		
+	})
+
+	////////////////////////////////////////////////////////////////////////////////
+	//          initialize arToolkitContext
+	////////////////////////////////////////////////////////////////////////////////	
+
+	// create atToolkitContext
+	var arToolkitContext = new THREEx.ArToolkitContext({
+		cameraParametersUrl: '../../data/data/camera_para.dat',
+		detectionMode: 'mono',
+		imageSmoothingEnabled: false,
+		maxDetectionRate: 30,
+		sourceWidth: arToolkitSource.parameters.sourceWidth,
+		sourceHeight: arToolkitSource.parameters.sourceHeight,
+	})
+	// initialize it
+	arToolkitContext.init(function onCompleted(){
+		// copy projection matrix to camera
+		camera.projectionMatrix.copy( arToolkitContext.getProjectionMatrix() );
+	})
+
+	// update artoolkit on every frame
+	onRenderFcts.push(function(){
+		if( arToolkitSource.ready === false )	return
+
+		arToolkitContext.update( arToolkitSource.domElement )
+	})
+	
+	
+	////////////////////////////////////////////////////////////////////////////////
+	//          Create a ArMarkerControls
+	////////////////////////////////////////////////////////////////////////////////
+	
+	var markerRoot = new THREE.Group
+	scene.add(markerRoot)
+	var artoolkitMarker = new THREEx.ArMarkerControls(arToolkitContext, markerRoot, {
+		type : 'pattern',
+		patternUrl : '../../data/data/patt.hiro',
+		// patternUrl : '../../data/data/patt.kanji',
+	})
+
+	//////////////////////////////////////////////////////////////////////////////////
+	//		add an object in the scene
+	//////////////////////////////////////////////////////////////////////////////////
+
+	
+	function buildSquareCache(){
+		var container = new THREE.Group
+		// add outter cube - invisibility cloak
+		var geometry = new THREE.PlaneGeometry(50,50);
+		var material = buildTransparentMaterial()
+
+		var mesh = new THREE.Mesh( geometry, material);
+		mesh.position.x =  geometry.parameters.width/2 + 0.5
+		mesh.position.y = -geometry.parameters.height/2 + 0.5
+		container.add(mesh)
+		
+		var mesh = new THREE.Mesh( geometry, material);
+		mesh.position.x = -geometry.parameters.width/2 + 0.5
+		mesh.position.y = -geometry.parameters.height/2 - 0.5
+		container.add(mesh)
+		
+		var mesh = new THREE.Mesh( geometry, material);
+		mesh.position.x = -geometry.parameters.width/2 - 0.5
+		mesh.position.y =  geometry.parameters.height/2 - 0.5
+		container.add(mesh)
+		
+		var mesh = new THREE.Mesh( geometry, material);
+		mesh.position.x = +geometry.parameters.width/2 - 0.5
+		mesh.position.y =  geometry.parameters.height/2 + 0.5
+		container.add(mesh)
+
+		return container
+	}
+
+	function buildCircleCache(){
+		var container = new THREE.Group
+		// add outter cube - invisibility cloak
+		var geometry = new THREE.RingGeometry( 0.5, 5, 32 );	
+		var material = buildTransparentMaterial()
+		
+		var mesh = new THREE.Mesh( geometry, material);
+
+		return mesh
+	}
+
+	function buildTransparentMaterial(){
+		var material = new THREE.MeshBasicMaterial({
+			colorWrite: false // only write to z-buf
+		})
+		// an alternative to reach the same visual - this one seems way slower tho. My guess is it is hitting a slow-path in gpu
+		// var material   = new THREE.MeshBasicMaterial();
+		// material.color.set('black')
+		// material.opacity   = 0;
+		// material.blending  = THREE.NoBlending;
+		return material		
+	}
+
+	//////////////////////////////////////////////////////////////////////////////
+	//		init invisibility cloak
+	//////////////////////////////////////////////////////////////////////////////
+
+	
+	var sceneName = location.hash.substring(1) || 'pool'
+	if( sceneName === 'torus' ){
+		initSceneCubeTorus()
+	}else if( sceneName === 'pool' ){
+		initScenePool()
+	}else if( sceneName === 'portal' ){
+		initScenePortal()
+	}else{
+		console.assert(false)
+	}
+
+	function initScenePortal(){
+		var group = new THREE.Group
+		group.scale.set(1,1,1).multiplyScalar(1)
+		markerRoot.add(group)
+
+		// group.add( buildSquareCache() )
+		group.add( buildCircleCache() )
+		
+		// radiusTop, radiusBottom, height
+		var geometry = new THREE.CylinderGeometry(0.5, 0.5, 0.05, 32, 1, true)
+		var material = new THREE.MeshLambertMaterial( {
+			side: THREE.BackSide,
+			// wireframe: true,
+			color: 'lightgrey'
+			
+		})
+		mesh = new THREE.Mesh( geometry, material );
+		mesh.rotateX(Math.PI/2)
+		mesh.position.z = -geometry.parameters.height/2
+		group.add( mesh );		
+		
+		// add bounding sphere
+		var geometry = new THREE.SphereGeometry( 3, 32, 16, 0, Math.PI, Math.PI, Math.PI);
+		geometry.scale( 1, -1, 1 );
+		var material = new THREE.MeshBasicMaterial( {
+			map: new THREE.TextureLoader().load( 'images/32211336474_380b67d014_k.jpg' ),
+			side: THREE.DoubleSide
+		});
+		mesh = new THREE.Mesh( geometry, material );
+		mesh.position.z = -0.05
+		group.add( mesh );		
+	}
+
+
+	function initSceneCubeTorus(){
+		var group = new THREE.Group
+		group.scale.set(1,1,1).multiplyScalar(1.2)
+		group.position.z	= -0.5 * group.scale.x
+		markerRoot.add(group)
+
+		// add outter cube - invisibility cloak
+		var geometry = new THREE.BoxGeometry(1,1,1);
+		geometry.faces.splice(8, 2); // make hole by removing top two triangles (is this assumption stable?)
+		var material = buildTransparentMaterial()	
+
+		var mesh = new THREE.Mesh( geometry, material);
+		mesh.scale.set(1,1,1).multiplyScalar(1.02)
+		group.add(mesh)
+
+		// add the inner box
+		var geometry	= new THREE.BoxGeometry(1,1,1);
+		var material	= new THREE.MeshNormalMaterial({
+			side: THREE.BackSide
+		}); 
+		var mesh	= new THREE.Mesh( geometry, material );
+		group.add( mesh );
+
+		// add the torus knot
+		var geometry	= new THREE.TorusKnotGeometry(0.25,0.1,32,32);
+		var material	= new THREE.MeshNormalMaterial(); 
+		var mesh	= new THREE.Mesh( geometry, material );
+		group.add( mesh );
+		
+		onRenderFcts.push(function(){
+			mesh.rotation.x += 0.1
+		})	
+	}
+
+	function initScenePool(){
+		var group = new THREE.Group
+		group.scale.set(1,1,1).multiplyScalar(1.2)
+		group.position.z	= -0.5 * group.scale.x
+		markerRoot.add(group)
+
+		// add outter cube - invisibility cloak
+		var geometry = new THREE.BoxGeometry(1,1,1);
+		geometry.faces.splice(8, 2); // make hole by removing top two triangles (is this assumption stable?)
+		var material = buildTransparentMaterial()	
+
+		var mesh = new THREE.Mesh( geometry, material);
+		mesh.scale.set(1,1,1).multiplyScalar(1.02)
+		group.add(mesh)
+
+		// todo: should build geometry explicitly instead,
+		// more like a hat, i.e including a brim around the top
+		var innerGeom = new THREE.BoxGeometry(1,1,1);
+		innerGeom.faces.splice(8, 2); // remove top (though this is a backside material)
+		innerGeom.elementsNeedUpdate = true;
+		var mesh = new THREE.Mesh(innerGeom, new THREE.MeshPhongMaterial({
+			side: THREE.BackSide,
+			map: new THREE.TextureLoader().load('images/mosaic-256x256.jpg')
+		}));
+		// TODO fix uv
+		group.add(mesh)
+
+		var geometry = new THREE.PlaneGeometry(1, 1)
+		var material = new THREE.MeshPhongMaterial({
+			transparent: true,
+			opacity: 0.5,
+			map: new THREE.TextureLoader().load('images/water.jpg')
+		})
+		var mesh = new THREE.Mesh(geometry, material);
+		mesh.position.z = 0.4;
+		group.add(mesh)
+
+
+		var geometry	= new THREE.SphereGeometry(0.1)
+		var texture	= THREE.ImageUtils.loadTexture('images/BeachBallColor.jpg')
+		var material	= new THREE.MeshBasicMaterial({
+			map	: texture,
+			bumpMap	: texture,
+			bumpScale: 0.01,
+		})
+		var material = new THREE.MeshNormalMaterial()
+		var mesh	= new THREE.Mesh( geometry, material );
+		mesh.position.z = 0.35;
+		mesh.position.x = innerGeom.parameters.height*0.12;
+		group.add(mesh);
+	}
+
+
+	//////////////////////////////////////////////////////////////////////////////////
+	//		render the whole thing on the page
+	//////////////////////////////////////////////////////////////////////////////////
+	var stats = new Stats();
+	// document.body.appendChild( stats.dom );
+	// render the scene
+	onRenderFcts.push(function(){
+		renderer.render( scene, camera );
+		stats.update();
+	})
+
+	// run the rendering loop
+	var lastTimeMsec= null
+	requestAnimationFrame(function animate(nowMsec){
+		// keep looping
+		requestAnimationFrame( animate );
+		// measure time
+		lastTimeMsec	= lastTimeMsec || nowMsec-1000/60
+		var deltaMsec	= Math.min(200, nowMsec - lastTimeMsec)
+		lastTimeMsec	= nowMsec
+		// call each update function
+		onRenderFcts.forEach(function(onRenderFct){
+			onRenderFct(deltaMsec/1000, nowMsec/1000)
+		})
+	})
+</script></body>
