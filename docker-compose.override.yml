@@ -1,0 +1,14 @@
+version: "2"
+services:
+  gaptcha:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    volumes:
+      - .:/app
+    ports:
+      - 8080:8080
+    environment:
+      - NODE_ENV=${NODE_ENV}
+      - M2X_KEY=${M2X_KEY}
+
