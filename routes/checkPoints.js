@@ -80,7 +80,8 @@ router.route('/lat/:lat/long/:lon')
   .get((req, res) => {
 
     const lat = req.params.lat;
-    const lon = req.params.long;
+    const lon = req.params.lon;
+    console.log(lat, lon,  masterPoint.lat,  masterPoint.lon)
 
     vincenty.distVincenty(lat, lon, masterPoint.lat, masterPoint.lon, (distance, initialBearing, finalBearing) => {
         res.json({
