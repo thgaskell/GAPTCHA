@@ -19,10 +19,36 @@ router.route('/')
     let payload = {
       value: JSON.stringify([
         {
+          id: 1,
           name: 'Sacred Hearts',
-          clue: '',
-          lat: 123,
-          lon: 456,
+          clue: 'The marker is on the third table to the right of the room, by the vending machine',
+          createdAt: Date.now(),
+        }, {
+          id: 2,
+          name: 'Manoa Innovatation Center',
+          clue: 'The marker is in the cafeteria',
+          createdAt: Date.now(),
+        }, {
+          id: 3,
+          name: 'University of Hawaii at Manoa',
+          clue: 'The marker is at a Catholic School',
+          createdAt: Date.now(),
+        }, {
+          id: 4,
+          name: 'Sacred Hearts',
+          clue: 'The marker is on Oahu',
+          createdAt: Date.now(),
+        }, {
+          id: 5,
+          name: 'Sacred Hearts',
+          clue: 'The marker is on NOT on the moon',
+          createdAt: Date.now(),
+        }, {
+          id: 6,
+          name: 'Master Point',
+          clue: 'YOU WON!',
+          lat: 21.2858534,
+          lon: -157.8064349,
           active: false,
           createdAt: Date.now(),
         }
