@@ -31,9 +31,7 @@ It’s time to get moving—your real-life adventures await!
 ##Credits
 
 - [Joe Karlsson](https://github.com/JoeKarlsson/)
-- [Sean Nakamura](https://github.com/JoeKarlsson/)
-- [Tony Gaskell](https://github.com/JoeKarlsson/)
-- [Brandon Baris](http://jrdevleague.com/)
-- [Joelle Torneros](http://jrdevleague.com/)
-
-Sean Nakamura, Tony Gaskell, Brandon Baris
+- [Sean Nakamura](https://github.com/senakamura/)
+- [Tony Gaskell](https://github.com/thgaskell/)
+- [Brandon Baris](https://github.com/brandonbaris/)
+- [Joelle Torneros](https://github.com/jmt75200/)
