@@ -5,7 +5,6 @@
 ## Getting Started
 
 1. Rename `.env_example` to `.env`
-1. Add your M2X Api Key
+1. Add your M2X Api Key to `.env`
+1. Run `source .env`
 1. Run `npm start`
-
-
