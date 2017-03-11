@@ -9,11 +9,21 @@ const m2x = new M2X(process.env.M2X_KEY);
 const deviceID = "8b492694122cc040401c2d4f9a6a3b56";
 const masterPoint = {
     name: 'Master Point',
+    // TEST (SACRED HEARTS CAFETERIA) 21.285471, -157.807362
     lat: 21.2858534,
     lon: -157.8064349,
     active: false,
     createdAt: Date.now(),
-  }
+  };
+  
+// NOTE: TIMES SUPERMARKET
+// const testPoint = {
+//     name: 'Test Point',
+//     lat: 21.286615,
+//     lon: -157.807592,
+//     active: false,
+//     createdAt: Date.now(),
+//   }
 
 router.route('/')
   // GET the current check-point stream status
@@ -73,14 +83,37 @@ router.route('/')
     m2x.devices.setStreamValue(deviceID, "check-points", payload, (values) => {
       res.send(values);
     });
-  })
+  });
+
+router.route('/capture/lat/:lat/long/:lon')
+  // GET capture route
+  .get((req, res) => {
+    const lat = req.params.lat;
+    const lon = req.params.lon;
+
+    vincenty.distVincenty(lat, lon, masterPoint.lat, masterPoint.lon, (distance, initialBearing, finalBearing) => {
+      // NOTE: 15m capture range.
+      if( distance < 15 && distance >= 0 ){
+        // TODO: DO SOMETHING BETTER
+        res.send('GOTTEM!');
+      } else {
+        res.send('NOPE! TRY AGAIN');
+      }
+    });
+  });
+
+router.route('/reset')
+  // GET checks server master point for win condition
+  .get((req, res) => {
+    res.send('stub');
+  });
 
 router.route('/lat/:lat/long/:lon')
   // GET the current check-point id's status - if it's not activated - then active that checkpoint
   .get((req, res) => {
 
     const lat = req.params.lat;
-    const lon = req.params.long;
+    const lon = req.params.lon;
 
     vincenty.distVincenty(lat, lon, masterPoint.lat, masterPoint.lon, (distance, initialBearing, finalBearing) => {
         res.json({
@@ -88,6 +121,7 @@ router.route('/lat/:lat/long/:lon')
           finalBearing,
         })
     });
-  })
+  });
+
 
 module.exports = router;
