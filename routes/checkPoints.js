@@ -15,7 +15,8 @@ const masterPoint = {
     active: false,
     createdAt: Date.now(),
   };
-let counter = 0;
+let game_counter = 0;
+let total_counter = 0;
 // NOTE: TIMES SUPERMARKET
 // const testPoint = {
 //     name: 'Test Point',
@@ -90,14 +91,15 @@ router.route('/capture/lat/:lat/long/:lon')
   .get((req, res) => {
     const lat = req.params.lat;
     const lon = req.params.lon;
-    counter++;
+    game_counter++;
+    total_counter++;
 
     vincenty.distVincenty(lat, lon, masterPoint.lat, masterPoint.lon, (distance, initialBearing, finalBearing) => {
       // NOTE: 15m capture range.
       if( distance < 15 && distance >= 0 ){
         // TODO: DO SOMETHING BETTER
-        res.send('GOTTEM! It took a total of ' + counter + ' total attempts since last found.');
-        counter = 0;
+        res.send('GOTTEM! It took a total of ' + game_counter + ' total attempts since last found.');
+        game_counter = 0;
       } else {
         res.send('NOPE! TRY AGAIN');
       }
@@ -116,14 +118,15 @@ router.route('/lat/:lat/long/:lon')
 
     const lat = req.params.lat;
     const lon = req.params.lon;
-    counter++;
+    game_counter++;
+    total_counter++;
     let payload = {
       value: JSON.stringify(
         {
           // id: 'stub',
           lat: req.params.lat,
           lon: req.params.lon,
-          value: 1, // NOTE: Maybe unnecessary if using a counter on server.
+          value: 1, // NOTE: Maybe unnecessary if using a game_counter on server.
           timestamp: Date.now(),
         }
       )
