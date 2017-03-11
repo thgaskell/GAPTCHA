@@ -11,10 +11,11 @@ const host = isDeveloping ? 'localhost' :  '0.0.0.0';
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
 
+app.use(express.static(`./public`));
+
 Promise.onPossiblyUnhandledRejection((err) => {
   throw new Error(err);
 });
-
 
 app.use('/api/checkpoint', checkpoint);
 
