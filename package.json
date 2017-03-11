@@ -1,0 +1,27 @@
+{
+  "name": "GAPTCHA",
+  "version": "1.0.0",
+  "description": "> GOT 'EM",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node server.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/thgaskell/GAPTCHA.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/thgaskell/GAPTCHA/issues"
+  },
+  "homepage": "https://github.com/thgaskell/GAPTCHA#readme",
+  "dependencies": {
+    "bluebird": "^3.5.0",
+    "body-parser": "^1.17.1",
+    "express": "^4.15.2",
+    "m2x": "^4.3.0"
+  }
+}
