@@ -21,13 +21,13 @@
   <meta property="og:url" content="https://gaptcha.herokuapp.com/">
   <meta property="og:type" content="website">
   <meta property="og:site_name" content="GAPTCHA" />
-  <!-- <meta property="og:image" content="https://github.com/JoeKarlsson1/Pig-Latin/img/cover_photo.png"> -->
+  <meta property="og:image" content="/img/GAPTCHA.png">
   <link rel="author" href="https://plus.google.com/u/0/+JoeKarlsson/posts">
   <meta name="twitter:card" content="summary_large_image">
   <meta name="twitter:description" content="Geo-Augmented Place That Checks Authentecity">
   <meta name="twitter:title" content="GAPTCHA">
   <meta name="twitter:site" content="@joekarlsson1">
-  <!-- <meta name="twitter:image" content="https://github.com/JoeKarlsson1/Pig-Latin/img/cover_photo.png"> -->
+  <meta name="twitter:image" content="/img/GAPTCHA.png">
   <meta name="twitter:creator" content="@joekarlsson1">
 
   <!-- FONT
@@ -69,7 +69,7 @@
             <a class="button button-primary" href="/play"><h3 class="hero-button">Scan A Marker</h3></a>
           </div>
           <div class="one-half column phones">
-            <img class="phone" src="img/iphone.png">
+            <img class="phone" src="img/iphone_gaptcha.png">
           </div>
         </div>
       </div>
@@ -88,19 +88,19 @@
         <div class="row">
           <div class="one-third column value">
             <h2 class="value-heading">Find</h2>
-            <p class="value-description">Percentage of users more likely to purchase on mobile friendly site.</p>
-            <img class="u-max-full-width" src="img/placeholder.png">
+            <p class="value-description">Find a marker out in the real world</p>
+            <img class="u-max-full-width" src="img/find.jpg">
           </div>
           <div class="one-third column value">
-            <h1 class="value-heading">Scan</h1>
-            <p class="value-description">Most of the world accesses the internet on multiple devices.</p>
-            <img class="u-max-full-width" src="img/placeholder.png">
+            <h2 class="value-heading">Scan</h2>
+            <p class="value-description">Scan the marker using our web app.</p>
+            <img class="u-max-full-width" src="img/scan.jpg">
 
           </div>
           <div class="one-third column value">
             <h2 class="value-heading">Win</h2>
-            <p class="value-description">Percentage of users that are frustrated with page load times.</p>
-            <img class="u-max-full-width" src="img/placeholder.png">
+            <p class="value-description">Find the virtual checkpoint and win!</p>
+            <img class="u-max-full-width" src="img/win.jpg">
 
           </div>
         </div>
@@ -111,7 +111,8 @@
       <div class="container">
         <h3 class="section-heading">Did I Win?</h3>
         <p class="section-description">If you think you found the hidden checkpoint,</br>click the button below to see if you won!</p>
-        <a class="button button-primary" href="/#win">Did I Win?</a>
+        <a id="win-button" class="button button-primary" href="/#win">Did I Win?</a>
+        <div id="win-status"></div>
       </div>
     </div>
 
@@ -164,5 +165,6 @@
 
   <script src="https://unpkg.com/leaflet@1.0.3/dist/leaflet.js"></script>
   <script type="text/javascript" src="/js/map.js"></script>
+  <script type="text/javascript" src="/js/app.js"></script>
 </body>
 </html>
