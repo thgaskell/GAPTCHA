@@ -1,41 +1,141 @@
 <!DOCTYPE html>
-<script src="vendor/aframe.min.js"></script>
-<!-- jsartookit -->
-<script src="../../three.js/vendor/jsartoolkit5/build/artoolkit.min.js"></script>
-<script src="../../three.js/vendor/jsartoolkit5/js/artoolkit.api.js"></script>
-<!-- include threex.artoolkit -->
-<script src="../../three.js/threex-artoolkitcontext.js"></script>
-<script src="../../three.js/threex-artoolkitsource.js"></script>
-<script src="../../three.js/threex-armarkercontrols.js"></script>
-<!-- aframe-artoolkit -->
-<script src="../aframe-ar.js"></script>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>GAPTCHA</title>
+  <!-- Basic Page Needs
+  –––––––––––––––––––––––––––––––––––––––––––––––––– -->
+  <meta charset="utf-8">
+  <title>GAPTCHA</title>
+  <meta name="description" content="">
+  <meta name="author" content="Sean Nakamura, Tony Gaskell, Brandon Baris, Joe Karlsson">
 
-<!-- to load .ply model -->
-<script src="https://rawgit.com/donmccurdy/aframe-extras/v2.1.1/dist/aframe-extras.loaders.min.js"></script>
+  <!-- Mobile Specific Metas
+  –––––––––––––––––––––––––––––––––––––––––––––––––– -->
+  <meta name="viewport" content="width=device-width, initial-scale=1">
 
-<body style='margin : 0px; overflow: hidden; font-family: Monospace;'><div style='position: fixed; top: 10px; width:inherit; text-align: center; z-index: 1;'>
-	<a href="https://github.com/jeromeetienne/AR.js/" target="_blank">AR.js</a> - A-Frame logo in augmented reality
-	<br/>
-	Contact me any time at <a href='https://twitter.com/jerome_etienne' target='_blank'>@jerome_etienne</a>
-</div>
-	<!-- <a-scene embedded artoolkit='sourceType: video; sourceUrl:../../data/videos/headtracking.mp4;'> -->
-	<a-scene embedded artoolkit='sourceType: webcam'>
+  <!-- OG Meta Data
+  –––––––––––––––––––––––––––––––––––––––––––––––––– -->
+  <meta property="og:description" content="Gaptcha captcha point. Geo-Augmented Place That Checks Authentecity">
+  <meta property="og:title" content="GAPTCHA">
+  <meta property="og:url" content="https://gaptcha.herokuapp.com/">
+  <meta property="og:type" content="website">
+  <meta property="og:site_name" content="GAPTCHA" />
+  <!-- <meta property="og:image" content="https://github.com/JoeKarlsson1/Pig-Latin/img/cover_photo.png"> -->
+  <link rel="author" href="https://plus.google.com/u/0/+JoeKarlsson/posts">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:description" content="Geo-Augmented Place That Checks Authentecity">
+  <meta name="twitter:title" content="GAPTCHA">
+  <meta name="twitter:site" content="@joekarlsson1">
+  <!-- <meta name="twitter:image" content="https://github.com/JoeKarlsson1/Pig-Latin/img/cover_photo.png"> -->
+  <meta name="twitter:creator" content="@joekarlsson1">
 
-        <!-- <a-scene embedded artoolkit='sourceType: webcam; sourceWidth: 240; sourceHeight: 180;'> -->
-	<!-- <a-scene artoolkit='sourceType: image; sourceUrl:../../data/images/screenshot.png'> -->
-	<!-- <a-scene embedded artoolkit='sourceType: image; sourceUrl:../../data/images/armchair.jpg;'> -->
+  <!-- FONT
+  –––––––––––––––––––––––––––––––––––––––––––––––––– -->
+  <link href="//fonts.googleapis.com/css?family=Raleway:400,300,600" rel="stylesheet" type="text/css">
 
-		<a-assets>
-			<a-asset-item id="assetAframe" src="models/arrow.ply"></a-asset-item>
-		</a-assets>
-		<a-entity light="type: point; color: #0F0; intensity: 2.75; distance: 50; decay: 2"
-          position="0 20 10"></a-entity>
-		<a-marker type='pattern' url='../../data/data/patt.hiro'>
-		<!-- <a-marker type='unknown'> -->
-    	<a-entity ply-model="src: #assetAframe" rotation="0 0 0" scale='0.02 0.02 0.02'></a-entity>
-		</a-marker>
+  <!-- CSS
+  –––––––––––––––––––––––––––––––––––––––––––––––––– -->
+  <link rel="stylesheet" href="css/normalize.css">
+  <link rel="stylesheet" href="css/skeleton.css">
+  <link rel="stylesheet" href="css/styles.css">
 
-		<a-entity camera></a-entity>
-	</a-scene>
+  <!-- Favicon
+  –––––––––––––––––––––––––––––––––––––––––––––––––– -->
+  <link rel="icon" type="image/png" href="img/favicon.png">
+
+  <!-- Scripts
+  –––––––––––––––––––––––––––––––––––––––––––––––––– -->
+  <script src="/js/app.js" type="text/javascript" charset="utf-8"></script>
+</head>
+<body>
+  <!-- Primary Page Layout
+    –––––––––––––––––––––––––––––––––––––––––––––––––– -->
+
+    <div class="section hero">
+      <div class="container">
+        <div class="row">
+          <div class="one-half column">
+            <h1>GAPTCHA</h1>
+            <h4 class="hero-heading">Find. Scan. Win.</h4>
+            <a class="button button-primary" href="/play.html">Scan A Marker</a>
+          </div>
+          <div class="one-half column phones">
+            <img class="phone" src="img/iphone.png">
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="section how-it-works">
+      <div class="container">
+        <h3 class="section-heading">How It Works</h3>
+        <p class="section-description">Now’s your chance to discover the world all around you—so get your shoes on, step outside, and explore the world. With GAPTCHA, the augmented reality scavenger hunt, you will get out in the real world to find our hidden checkpoint!</p>
+        <a class="button button-primary" href="/play.html">Scan A Marker</a>
+      </div>
+    </div>
+
+    <div class="section values">
+      <div class="container">
+        <div class="row">
+          <div class="one-third column value">
+            <h2 class="value-heading">Find</h2>
+            <p class="value-description">Percentage of users more likely to purchase on mobile friendly site.</p>
+            <img class="u-max-full-width" src="img/placeholder.png">
+          </div>
+          <div class="one-third column value">
+            <h1 class="value-heading">Scan</h1>
+            <p class="value-description">Most of the world accesses the internet on multiple devices.</p>
+            <img class="u-max-full-width" src="img/placeholder.png">
+
+          </div>
+          <div class="one-third column value">
+            <h2 class="value-heading">Win</h2>
+            <p class="value-description">Percentage of users that are frustrated with page load times.</p>
+            <img class="u-max-full-width" src="img/placeholder.png">
+
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="section get-help">
+      <div class="container">
+        <h3 class="section-heading">Did I Win?</h3>
+        <p class="section-description">If you think you found the hidden checkpoint,</br>click the button below to see if you won!</p>
+        <a class="button button-primary" href="/#win">Did I Win?</a>
+      </div>
+    </div>
+
+    <div class="section values">
+      <div class="row">
+        <div class="container">
+          <div class="six columns"></div>
+        <h3 class="section-heading">Like what you see?</h3>
+        <p class="section-description">This app was developed by developers from DevLeague, Sean Nakamura, Tony Gaskell, Brandon Baris, Joe Karlsson for the 2017 ATT&T hackathon. Our code is completly open source. Feel free to check it out.</br></br>
+        <a class="button button-primary" target="_blank" href="https://github.com/thgaskell/GAPTCHA">GitHub Repo</a>
+
+      </div>
+    </div>
+    <div class="container">
+      <h3 class="section-heading">Plz share</h3>
+
+      <div class="entry-social">
+        <div class="fb">
+        <a href="https://www.facebook.com/sharer/sharer.php?&u=https://gaptcha.herokuapp.com/" target="_blank">Facebook</a>
+        </div>
+        <div class="twitter">
+        <a href="https://twitter.com/intent/tweet?url=https://gaptcha.herokuapp.com/" target="_blank">Twitter</a>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+
+
+
+  <!-- End Document
+    –––––––––––––––––––––––––––––––––––––––––––––––––– -->
 </body>
 </html>

@@ -12,7 +12,7 @@
     "url": "git+https://github.com/thgaskell/GAPTCHA.git"
   },
   "keywords": [],
-  "author": "",
+  "author": "Sean Nakamura, Tony Gaskell, Brandon Baris, Joe Karlsson",
   "license": "ISC",
   "bugs": {
     "url": "https://github.com/thgaskell/GAPTCHA/issues"
