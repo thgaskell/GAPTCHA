@@ -17,7 +17,10 @@
 /* Hero
 –––––––––––––––––––––––––––––––––––––––––––––––––– */
 .hero {
-  background-color: #8ED2C9;
+  background-image: url('../img/background.png');
+  background-size: cover;
+  color: #fff;
+  padding-bottom: 5rem;
 }
 .hero-button {
   font-size: 3rem;
@@ -67,7 +70,7 @@
 /* Categories
 –––––––––––––––––––––––––––––––––––––––––––––––––– */
 .categories {
-  background-image: url('../img/values-bg.jpg');
+  background-image: url('../img/background.png');
   background-size: cover;
   color: #fff;
 }
