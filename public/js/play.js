@@ -8,12 +8,19 @@ window.onload = function(){
   function sendLocation(lat, lng) {
     var req = new XMLHttpRequest();
     req.addEventListener('load', receiveRotation);
-    req.open('POST', `/api/checkpoint/lat/${lat}/long/${lng}`)
+    req.open('GET', `/api/checkpoint/lat/${lat}/long/${lng}`)
     req.send();
   }
 
   function receiveRotation(){
     console.log(this.responseText)
+    var response = JSON.parse(this.responseText)
+    setRotation(response.finalBearing)
   }
 
+  function setRotation(deg){
+    var rotation = Math.floor(deg);
+    var asset = document.querySelector('a-entity[ply-model]');
+    asset.setAttribute('rotation', `0 0 ${rotation}`);
+  }
 }
