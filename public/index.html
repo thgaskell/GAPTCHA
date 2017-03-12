@@ -38,11 +38,19 @@
   –––––––––––––––––––––––––––––––––––––––––––––––––– -->
   <link rel="stylesheet" href="css/normalize.css">
   <link rel="stylesheet" href="css/skeleton.css">
+  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.0.3/dist/leaflet.css" />
   <link rel="stylesheet" href="css/styles.css">
 
   <!-- Favicon
   –––––––––––––––––––––––––––––––––––––––––––––––––– -->
-  <link rel="icon" type="image/png" href="img/favicon.png">
+  <link rel="apple-touch-icon" sizes="180x180" href="/img/apple-touch-icon.png">
+  <link rel="icon" type="image/png" href="/img/favicon-32x32.png" sizes="32x32">
+  <link rel="icon" type="image/png" href="/img/favicon-16x16.png" sizes="16x16">
+  <link rel="manifest" href="/img/manifest.json">
+  <link rel="mask-icon" href="/img/safari-pinned-tab.svg" color="#5bbad5">
+  <link rel="shortcut icon" href="/img/favicon.ico">
+  <meta name="msapplication-config" content="/img/browserconfig.xml">
+  <meta name="theme-color" content="#ffffff">
 
   <!-- Scripts
   –––––––––––––––––––––––––––––––––––––––––––––––––– -->
@@ -58,10 +66,10 @@
           <div class="one-half column">
             <h1>GAPTCHA</h1>
             <h4 class="hero-heading">Find. Scan. Win.</h4>
-            <a class="button button-primary" href="/play.html">Scan A Marker</a>
+            <a class="button button-primary" href="/play">Scan A Marker</a>
           </div>
           <div class="one-half column phones">
-            <img class="phone" src="img/iphone.png">
+            <img class="logo" src="img/logo2.png">
           </div>
         </div>
       </div>
@@ -71,7 +79,7 @@
       <div class="container">
         <h3 class="section-heading">How It Works</h3>
         <p class="section-description">Now’s your chance to discover the world all around you—so get your shoes on, step outside, and explore the world. With GAPTCHA, the augmented reality scavenger hunt, you will get out in the real world to find our hidden checkpoint!</p>
-        <a class="button button-primary" href="/play.html">Scan A Marker</a>
+        <a class="button button-primary" href="/play">Scan A Marker</a>
       </div>
     </div>
 
@@ -107,6 +115,22 @@
       </div>
     </div>
 
+    <div class="section map">
+      <div class="container">
+        <div class="row">
+          <div class="one-half column">
+            <h3>AT&T M2X Integration</3>
+            <p class="hero-heading">We have a live feed of all the people using GAPTCHA using AT&T M2X platform.</p>
+            <a class="button button-primary" href="https://m2x.att.com/devices" target="_blank">Learn More</a>
+          </div>
+          <div class="one-half column">
+            <div id="mapid" style="width: 600px; height: 400px;"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+
     <div class="section values">
       <div class="row">
         <div class="container">
@@ -137,5 +161,8 @@
 
   <!-- End Document
     –––––––––––––––––––––––––––––––––––––––––––––––––– -->
+
+  <script src="https://unpkg.com/leaflet@1.0.3/dist/leaflet.js"></script>
+  <script type="text/javascript" src="/js/map.js"></script>
 </body>
 </html>

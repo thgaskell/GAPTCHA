@@ -1,4 +1,6 @@
 <!DOCTYPE html>
+<script src="js/play.js"></script>
+
 <script src="vendor/aframe.min.js"></script>
 <!-- jsartookit -->
 <script src="../../three.js/vendor/jsartoolkit5/build/artoolkit.min.js"></script>
@@ -13,7 +15,7 @@
 <!-- to load .ply model -->
 <script src="https://rawgit.com/donmccurdy/aframe-extras/v2.1.1/dist/aframe-extras.loaders.min.js"></script>
 
-<body style='margin : 0px; overflow: hidden; font-family: Monospace;'><div style='position: fixed; top: 10px; width:inherit; text-align: center; z-index: 1;'>
+<body style='margin : 0px; overflow: hidden; font-family: Monospace;'><div style='position: fixed; top: 10px; width:inherit; text-align: enter; z-index: 1;'>
 	<a href="https://github.com/jeromeetienne/AR.js/" target="_blank">AR.js</a> - A-Frame logo in augmented reality
 	<br/>
 	Contact me any time at <a href='https://twitter.com/jerome_etienne' target='_blank'>@jerome_etienne</a>
@@ -28,10 +30,11 @@
 		<a-assets>
 			<a-asset-item id="assetAframe" src="models/arrow.ply"></a-asset-item>
 		</a-assets>
-
-		<a-marker type='pattern' url='../../data/data/patt.hiro'>
+		<a-entity light="type: point; color: #0F0; intensity: 2.75; distance: 50; decay: 2"
+          position="0 20 10"></a-entity>
+		<a-marker type='pattern' url='../../data/data/patt.gaptcha'>
 		<!-- <a-marker type='unknown'> -->
-    	<a-entity ply-model="src: #assetAframe" rotation="0 0 90" scale='0.02 0.02 0.02'></a-entity>
+    	<a-entity ply-model="src: #assetAframe" rotation="0 0 0" scale='0.02 0.02 0.02'></a-entity>
 		</a-marker>
 
 		<a-entity camera></a-entity>

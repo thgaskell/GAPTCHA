@@ -7,7 +7,7 @@ const vincenty = require('node-vincenty');
 const m2x = new M2X(process.env.M2X_KEY);
 const streamName = 'check-points';
 
-const deviceID = ( process.env.M2X_DEVICE_ID ) ? process.env.M2X_DEVICE_ID : '8b492694122cc040401c2d4f9a6a3b56'; 
+const deviceID = ( process.env.M2X_DEVICE_ID ) ? process.env.M2X_DEVICE_ID : '8b492694122cc040401c2d4f9a6a3b56';
 let masterPoint = {
     name: 'Master Point',
     // TEST (SACRED HEARTS CAFETERIA) 21.285471, -157.807362
@@ -99,10 +99,16 @@ router.route('/capture/lat/:lat/long/:lon')
       // NOTE: 15m capture range.
       if( distance < 15 && distance >= 0 ){
         // TODO: DO SOMETHING BETTER
-        res.send('GOTTEM! It took a total of ' + gameCounter + ' total attempts since last found.');
+        res.json({
+          success: true,
+          message: 'GOTTEM! It took a total of ' + gameCounter + ' total attempts since last found.',
+        });
         gameCounter = 0;
       } else {
-        res.send('NOPE! TRY AGAIN');
+        res.json({
+          success: false,
+          message: 'NOPE! TRY AGAIN',
+        });
       }
     });
   });
@@ -138,7 +144,6 @@ router.route('/lat/:lat/long/:lon')
     });
     vincenty.distVincenty(lat, lon, masterPoint.lat, masterPoint.lon, (distance, initialBearing, finalBearing) => {
         res.json({
-          distance,
           finalBearing,
         });
     });
