@@ -30,7 +30,8 @@
 		<a-assets>
 			<a-asset-item id="assetAframe" src="models/arrow.ply"></a-asset-item>
 		</a-assets>
-
+		<a-entity light="type: point; color: #0F0; intensity: 2.75; distance: 50; decay: 2"
+          position="0 20 10"></a-entity>
 		<a-marker type='pattern' url='../../data/data/patt.gaptcha'>
 		<!-- <a-marker type='unknown'> -->
     	<a-entity ply-model="src: #assetAframe" rotation="0 0 0" scale='0.02 0.02 0.02'></a-entity>
