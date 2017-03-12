@@ -25,7 +25,7 @@ function addPointsToMap(data) {
         iconUrl: 'img/favicon-32x32.png'
       });
       var marker = L.marker([lat, lon], { icon: customIcon }).addTo(mymap);
-      marker.bindPopup(`<b>Timestamp</b><br>${ new Date(parsedData.timestamp)}.`);
+      marker.bindPopup(`<b>Timestamp</b><br>${new Date(parsedData.timestamp)}.`);
     }
   });
 }
