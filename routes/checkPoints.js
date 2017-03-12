@@ -38,6 +38,10 @@ router.route('/capture/lat/:lat/long/:lon')
   .get((req, res) => {
     let masterPoint = {};
     m2x.devices.location(deviceID,(result) => {
+      if( result.status === 404 ){
+        masterPoint.lat = masterPointDefault.lat;
+        masterPoint.lon = masterPointDefault.lon;
+      }
       masterPoint.lat = result.json.latitude;
       masterPoint.lon = result.json.longitude;
       const lat = req.params.lat;
@@ -104,6 +108,10 @@ router.route('/lat/:lat/long/:lon')
   .get((req, res) => {
     let masterPoint = {};
     m2x.devices.location(deviceID,(result) => {
+      if( result.status === 404 ){
+        masterPoint.lat = masterPointDefault.lat;
+        masterPoint.lon = masterPointDefault.lon;
+      }
       masterPoint.lat = result.json.latitude;
       masterPoint.lon = result.json.longitude;
       const lat = req.params.lat;
