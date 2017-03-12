@@ -19,8 +19,8 @@ window.onload = function(){
   }
 
   function setRotation(deg){
-    var rotation = Math.floor(deg);
+    var bearing = -Math.floor(deg);
     var asset = document.querySelector('a-entity[ply-model]');
-    asset.setAttribute('rotation', `0 0 ${rotation}`);
+    asset.setAttribute('rotation', `0 0 ${bearing}`);
   }
 }
