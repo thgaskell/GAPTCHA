@@ -1,6 +1,7 @@
 window.onload = function (){
   getCheckPoints();
 
+
   var geo = navigator.geolocation;
 
   var winBtn = document.getElementById('win-button');
@@ -27,13 +28,13 @@ window.onload = function (){
 function getCheckPoints() {
   var req = new XMLHttpRequest();
   req.addEventListener('load', receiveData);
-  req.open('GET', `/api/checkpoint`)
+  req.open('GET', `/api/checkpoint`);
   req.send();
 }
 
 function receiveData(){
   let data = JSON.parse(this.responseText).json.values;
-  addPointsToMap(data)
+  addPointsToMap(data);
 }
 
 function addPointsToMap(data) {
@@ -44,8 +45,11 @@ function addPointsToMap(data) {
     let lon = parsedData.lon;
     // Add points from M2X on the map
     if (lat || lon) {
-      var marker = L.marker([lat, lon]).addTo(mymap);
-      marker.bindPopup(`<b>Timestamp</b><br>${parsedData.timestamp}.`);
+      var customIcon = L.icon({
+        iconUrl: 'img/favicon-32x32.png'
+      });
+      var marker = L.marker([lat, lon], { icon: customIcon }).addTo(mymap);
+      marker.bindPopup(`<b>Timestamp</b><br>${new Date(parsedData.timestamp)}.`);
     }
   });
 }
