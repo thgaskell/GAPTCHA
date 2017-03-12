@@ -16,14 +16,6 @@ let masterPointDefault = {
   };
 var gameCounter = 0;
 var totalCounter = 0;
-// NOTE: TIMES SUPERMARKET
-// const testPoint = {
-//     name: 'Test Point',
-//     lat: 21.286615,
-//     lon: -157.807592,
-//     active: false,
-//     createdAt: Date.now(),
-//   }
 
 router.route('/')
   // GET the current check-point stream status
@@ -76,6 +68,14 @@ router.route('/masterlocation')
   //     res.send(result.json);
   //   });
   // })
+
+  // EXAMPLE JSON PAYLOAD: TIMES SUPERMARKET
+  //  {
+  //     name: 'Test Point', // optional (default=timestamp)
+  //     lat: 21.286615, // required
+  //     lon: -157.807592, // required
+  //     elevation: 17 // optional (default=17)
+  //  }
 
   // PUT updates master point to current device location specified
   .put((req, res) => {
