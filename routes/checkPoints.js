@@ -8,15 +8,12 @@ const m2x = new M2X(process.env.M2X_KEY);
 const streamName = 'check-points';
 
 const deviceID = ( process.env.M2X_DEVICE_ID ) ? process.env.M2X_DEVICE_ID : '8b492694122cc040401c2d4f9a6a3b56';
-// LEGACY CODE
-// let masterPoint = {
-//     name: 'Master Point',
-//     // TEST (SACRED HEARTS CAFETERIA) 21.285471, -157.807362
-//     lat: 21.2858534,
-//     lon: -157.8064349,
-//     active: false,
-//     createdAt: Date.now(),
-//   };
+let masterPointDefault = {
+    // TEST (SACRED HEARTS CAFETERIA) 21.285471, -157.807362
+    name: 'SACRED HEARTS CAFETERIA',
+    lat: 21.285471,
+    lon: -157.807362,
+  };
 var gameCounter = 0;
 var totalCounter = 0;
 // NOTE: TIMES SUPERMARKET
