@@ -28,7 +28,7 @@ window.onload = function(){
     asset.setAttribute('rotation', `0 0 ${bearing}`);
   }
 
-  function leetSpin(timestamp){
+  function leetSpin(){
     if (!hasBearings) {
       bearingIncr += 5
       asset.setAttribute('rotation', `0 0 ${-bearingIncr}`);
