@@ -19,7 +19,10 @@
 .hero {
   background-color: #8ED2C9;
 }
-.logo {
+.hero-button {
+  font-size: 3rem;
+}
+.phone {
   position: relative;
   max-width: 80%;
   margin: 3rem auto -12rem;
@@ -29,6 +32,13 @@
 –––––––––––––––––––––––––––––––––––––––––––––––––– */
 .how-it-works {
   border-bottom: 1px solid #ddd;
+}
+
+/* Map
+–––––––––––––––––––––––––––––––––––––––––––––––––– */
+#mapid {
+  width: 100%;
+  height: 400px;
 }
 
 /* Values
@@ -82,13 +92,9 @@
     max-height: 362px;
     z-index: 3;
   }
-  .phone + .phone {
-    top: -6rem;
-    display: block;
-    max-width: 73.8%;
-    right: 0;
-    z-index: 2;
-    max-height: 338px;
+  #mapid {
+    width: 400px;
+    height: 300px;
   }
   .hero-heading {
     font-size: 2.4rem;
@@ -119,10 +125,6 @@
     right: 5rem;
     max-height: 510px;
   }
-  .phone + .phone {
-    top: -12rem;
-    max-height: 472px;
-  }
   .categories {
     padding: 15rem 0 8rem;
   }
@@ -136,16 +138,15 @@
   .hero {
     padding: 22rem 0;
   }
+  .hero-button {
+    font-size: 3.0rem;
+  }
   .hero-heading {
     font-size: 3.0rem;
   }
   .phone {
     top: -16rem;
     max-height: 615px;
-  }
-  .phone + .phone {
-    top: -14rem;
-    max-height: 570px;
   }
 }
 

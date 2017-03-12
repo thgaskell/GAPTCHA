@@ -8,16 +8,14 @@ const m2x = new M2X(process.env.M2X_KEY);
 const streamName = 'check-points';
 
 const deviceID = ( process.env.M2X_DEVICE_ID ) ? process.env.M2X_DEVICE_ID : '8b492694122cc040401c2d4f9a6a3b56';
-let masterPoint = {
-    name: 'Master Point',
+let masterPointDefault = {
     // TEST (SACRED HEARTS CAFETERIA) 21.285471, -157.807362
-    lat: 21.2858534,
-    lon: -157.8064349,
-    active: false,
-    createdAt: Date.now(),
+    name: 'SACRED HEARTS CAFETERIA',
+    lat: 21.285471,
+    lon: -157.807362,
   };
-let gameCounter = 0;
-let totalCounter = 0;
+var gameCounter = 0;
+var totalCounter = 0;
 // NOTE: TIMES SUPERMARKET
 // const testPoint = {
 //     name: 'Test Point',
@@ -33,119 +31,113 @@ router.route('/')
     m2x.devices.values(deviceID, streamName, (values) => {
       res.send(values);
     });
-  })
-  // Create a new game state
-  .post((req, res) => {
-    let payload = {
-      value: JSON.stringify([
-        {
-          id: 1,
-          name: 'Sacred Hearts',
-          clue: 'The marker is on the third table to the right of the room, by the vending machine',
-          lat: 21.2858534,
-          lon: -157.8064349,
-          angle: 123,
-          createdAt: Date.now(),
-        }, {
-          id: 2,
-          name: 'Manoa Innovatation Center',
-          clue: 'The marker is in the cafeteria',
-          lat: 21.2858534,
-          lon: -157.8064349,
-          angle: 123,
-          createdAt: Date.now(),
-        }, {
-          id: 3,
-          name: 'University of Hawaii at Manoa',
-          clue: 'The marker is at a Catholic School',
-          lat: 21.2858534,
-          lon: -157.8064349,
-          angle: 123,
-          createdAt: Date.now(),
-        }, {
-          id: 4,
-          name: 'Sacred Hearts',
-          lat: 21.2858534,
-          lon: -157.8064349,
-          angle: 123,
-          clue: 'The marker is on Oahu',
-          createdAt: Date.now(),
-        }, {
-          id: 5,
-          name: 'Sacred Hearts',
-          clue: 'The marker is on NOT on the moon',
-          lat: 21.2858534,
-          lon: -157.8064349,
-          angle: 123,
-          createdAt: Date.now(),
-        }
-      ])
-    };
-
-    m2x.devices.setStreamValue(deviceID, streamName, payload, (values) => {
-      res.send(values);
-    });
   });
 
 router.route('/capture/lat/:lat/long/:lon')
   // GET capture route
   .get((req, res) => {
-    const lat = req.params.lat;
-    const lon = req.params.lon;
-    gameCounter++;
-    totalCounter++;
-
-    vincenty.distVincenty(lat, lon, masterPoint.lat, masterPoint.lon, (distance, initialBearing, finalBearing) => {
-      // NOTE: 15m capture range.
-      if( distance < 15 && distance >= 0 ){
-        // TODO: DO SOMETHING BETTER
-        res.json({
-          success: true,
-          message: 'GOTTEM! It took a total of ' + gameCounter + ' total attempts since last found.',
-        });
-        gameCounter = 0;
-      } else {
-        res.json({
-          success: false,
-          message: 'NOPE! TRY AGAIN',
-        });
+    let masterPoint = {};
+    m2x.devices.location(deviceID,(result) => {
+      if( result.status === 404 ){
+        masterPoint.lat = masterPointDefault.lat;
+        masterPoint.lon = masterPointDefault.lon;
       }
+      masterPoint.lat = result.json.latitude;
+      masterPoint.lon = result.json.longitude;
+      const lat = req.params.lat;
+      const lon = req.params.lon;
+      // NOTE: Capture range.
+      const distanceThreshold = 20;
+      gameCounter++;
+      totalCounter++;
+
+      vincenty.distVincenty(lat, lon, masterPoint.lat, masterPoint.lon, (distance, initialBearing, finalBearing) => {
+        if( distance < distanceThreshold && distance >= 0 ){
+          // TODO: DO SOMETHING BETTER
+          res.json({
+            success: true,
+            message: 'GOTTEM! It took a total of ' + gameCounter + ' total attempts since last found.',
+          });
+          gameCounter = 0;
+        } else {
+          res.json({
+            success: false,
+            message: 'NOPE! TRY AGAIN',
+          });
+        }
+      });
+    });
+  });
+
+router.route('/masterlocation')
+  // GET device location for master point (DEVELOPMENT USE)
+  // .get((req, res) => {
+  //   m2x.devices.location(deviceID,(result) => {
+  //     res.send(result.json);
+  //   });
+  // })
+
+  // PUT updates master point to current device location specified
+  .put((req, res) => {
+    if( req.body.name === undefined ){
+      req.body.name = "Master Point: " + Date.now();
+    }
+    if( req.body.elevation === undefined ){
+      req.body.elevation = 17;
+    }
+    let newMasterPoint = { 
+      "name": req.body.name,
+      "latitude": req.body.lat,
+      "longitude": req.body.lon,
+      "timestamp": Date.UTC(),
+      "elevation": req.body.elevation
+    };
+    m2x.devices.updateLocation(deviceID, newMasterPoint,(result) => {
+      res.send(result.json);
     });
   });
 
 router.route('/reset')
-  // GET checks server master point for win condition
+  // STUBBED FOR FUTURE GAME ADMINISTRATION
   .get((req, res) => {
     res.send('stub');
   });
 
 router.route('/lat/:lat/long/:lon')
-  // GET the current check-point id's status - if it's not activated - then active that checkpoint
+  // GET the current check-point id's status and returns angle direction
   .get((req, res) => {
+    let masterPoint = {};
+    m2x.devices.location(deviceID,(result) => {
+      if( result.status === 404 ){
+        masterPoint.lat = masterPointDefault.lat;
+        masterPoint.lon = masterPointDefault.lon;
+      }
+      masterPoint.lat = result.json.latitude;
+      masterPoint.lon = result.json.longitude;
+      const lat = req.params.lat;
+      const lon = req.params.lon;
+      gameCounter++;
+      totalCounter++;
+      let payload = {
+        value: JSON.stringify(
+          {
+            // id: 'stub',
+            lat: req.params.lat,
+            lon: req.params.lon,
+            value: 1, // NOTE: Maybe unnecessary if using a gameCounter on server.
+            timestamp: Date.now(),
+          }
+        )
+      };
 
-    const lat = req.params.lat;
-    const lon = req.params.lon;
-    gameCounter++;
-    totalCounter++;
-    let payload = {
-      value: JSON.stringify(
-        {
-          // id: 'stub',
-          lat: req.params.lat,
-          lon: req.params.lon,
-          value: 1, // NOTE: Maybe unnecessary if using a gameCounter on server.
-          timestamp: Date.now(),
-        }
-      )
-    };
-
-    m2x.devices.setStreamValue(deviceID, streamName, payload, (result) => {
-      console.log('result',result.json);
-    });
-    vincenty.distVincenty(lat, lon, masterPoint.lat, masterPoint.lon, (distance, initialBearing, finalBearing) => {
-        res.json({
-          finalBearing,
-        });
+      m2x.devices.setStreamValue(deviceID, streamName, payload, (result) => {
+        console.log('result',result.json);
+      });
+      vincenty.distVincenty(lat, lon, masterPoint.lat, masterPoint.lon, (distance, initialBearing, finalBearing) => {
+          res.json({
+            finalBearing,
+          });
+      });
     });
   });
 
