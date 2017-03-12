@@ -5,6 +5,7 @@ const router = express.Router();
 const M2X = require('m2x');
 const vincenty = require('node-vincenty');
 const m2x = new M2X(process.env.M2X_KEY);
+const streamName = 'check-points';
 
 const deviceID = ( process.env.M2X_DEVICE_ID ) ? process.env.M2X_DEVICE_ID : '8b492694122cc040401c2d4f9a6a3b56';
 let masterPoint = {
@@ -29,7 +30,7 @@ let totalCounter = 0;
 router.route('/')
   // GET the current check-point stream status
   .get((req, res) => {
-    m2x.devices.values(deviceID, "check-points", (values) => {
+    m2x.devices.values(deviceID, streamName, (values) => {
       res.send(values);
     });
   })
@@ -81,7 +82,7 @@ router.route('/')
       ])
     };
 
-    m2x.devices.setStreamValue(deviceID, "check-points", payload, (values) => {
+    m2x.devices.setStreamValue(deviceID, streamName, payload, (values) => {
       res.send(values);
     });
   });
@@ -138,7 +139,7 @@ router.route('/lat/:lat/long/:lon')
       )
     };
 
-    m2x.devices.setStreamValue(deviceID, "check-points", payload, (result) => {
+    m2x.devices.setStreamValue(deviceID, streamName, payload, (result) => {
       console.log('result',result.json);
     });
     vincenty.distVincenty(lat, lon, masterPoint.lat, masterPoint.lon, (distance, initialBearing, finalBearing) => {
