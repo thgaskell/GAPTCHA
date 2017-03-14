@@ -2,6 +2,8 @@
 
 > Geo-Augmented Place That Checks Authentecity
 
+[Check out our project](https://gaptcha.herokuapp.com/)
+
 ## How It Works
 
 Find. Scan. Win. Now’s your chance to discover the world all around you—so get your shoes on, step outside, and explore the world. With GAPTCHA, our augmented reality scavenger hunt, you will get out in the real world to find our hidden checkpoint!
@@ -11,6 +13,10 @@ When you find a maker, open our web app, scan the marker and get the bearing to 
 Once you think you have located the secret checkpoint, open our app, click the "Did I Win" button, and
 
 It’s time to get moving—your real-life adventures await!
+
+### Screenshots
+![gaptcha 1](https://cloud.githubusercontent.com/assets/4650739/23925691/83c28494-08b4-11e7-8114-7adca1c6c65f.png)
+
 
 ## Getting Started
 
