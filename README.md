@@ -4,6 +4,10 @@
 
 [Check out our project](https://gaptcha.herokuapp.com/)
 
+You can print out your own scanable tags!
+
+![marker-gaptcha](https://cloud.githubusercontent.com/assets/4650739/23925756/cfb66f78-08b4-11e7-88e5-bbb76725625b.png)
+
 ## How It Works
 
 Find. Scan. Win. Now’s your chance to discover the world all around you—so get your shoes on, step outside, and explore the world. With GAPTCHA, our augmented reality scavenger hunt, you will get out in the real world to find our hidden checkpoint!
