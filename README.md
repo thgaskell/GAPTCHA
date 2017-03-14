@@ -30,7 +30,7 @@ It’s time to get moving—your real-life adventures await!
 1. Run `source .env`
 1. Run `npm start`
 
-##Contributing
+## Contributing
 
 1. Fork it!
 2. Create your feature branch: ```git checkout -b my-new-feature```
@@ -38,7 +38,7 @@ It’s time to get moving—your real-life adventures await!
 4. Push to the branch: ````git push origin my-new-feature````
 5. Submit a pull request :D
 
-##Credits
+## Credits
 
 - [Joe Karlsson](https://github.com/JoeKarlsson/)
 - [Sean Nakamura](https://github.com/senakamura/)
