@@ -1,0 +1,6 @@
+version: "2"
+services:
+  gaptcha:
+    build: .
+    image: sudokrew/gaptcha:${GAPTCHA_VERSION}
+    container_name: gaptcha-server

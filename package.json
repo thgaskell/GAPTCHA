@@ -5,7 +5,10 @@
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "node server.js"
+    "start": "node server.js",
+    "docker:dev:start": "docker-compose up -d",
+    "docker:dev:stop": "docker-compose down",
+    "docker:build": "docker-compose build --force-rm"
   },
   "repository": {
     "type": "git",
